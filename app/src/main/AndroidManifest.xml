@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Login_Register.RegisterActivity"></activity>
         <activity android:name=".Login_Register.LoginActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".Login_Register.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

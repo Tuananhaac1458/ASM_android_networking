@@ -1,4 +1,4 @@
-package com.example.asm_android_networking;
+package com.example.asm_android_networking.Login_Register;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.asm_android_networking.Login_Register.LoginActivity;
+import com.example.asm_android_networking.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,7 +20,8 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
             }
-        },3000);
+        },2000);
     }
 }
