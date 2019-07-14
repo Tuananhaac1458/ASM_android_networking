@@ -152,10 +152,10 @@
         app:layout_constraintTop_toBottomOf="@+id/etpass"
         app:layout_constraintVertical_bias="0.196" />
 
-    <Button
+    <com.facebook.login.widget.LoginButton
         android:id="@+id/btnlwfb"
-        android:layout_width="312dp"
-        android:layout_height="46dp"
+        android:layout_width="306dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="104dp"
@@ -168,7 +168,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etpass" />
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/btnlwgg"
         android:layout_width="312dp"
         android:layout_height="46dp"
@@ -182,8 +182,8 @@
         android:textColor="@color/colortext"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnlwfb"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.03" />
 </androidx.constraintlayout.widget.ConstraintLayout>
