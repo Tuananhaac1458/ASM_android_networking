@@ -1,16 +1,24 @@
 package com.example.asm_android_networking.Fragment;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.asm_android_networking.Adapter.Recyclerview_adapter;
 import com.example.asm_android_networking.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +37,16 @@ public class Fragment_Home extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    ////// Khai bao/////////////////////
+    View v;
+    private static final String TAG ="Fragment_Home";
+    private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> mNames = new ArrayList<>();
+    private ArrayList<String> mStatus = new ArrayList<>();
+    private ArrayList<String> mTacgias = new ArrayList<>();
+    private ArrayList<String> mCategoris = new ArrayList<>();
+    private RecyclerView recyclerview_home;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -61,15 +79,112 @@ public class Fragment_Home extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        initImageBitmap();
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fragment__home, container, false);
+               v = inflater.inflate(R.layout.fragment_fragment__home, container, false);
+                recyclerview_home = v.findViewById(R.id.recyclerview_home);
+                Recyclerview_adapter adapter = new Recyclerview_adapter(getContext(),mImages,mNames,mStatus,mTacgias,mCategoris);
+                recyclerview_home.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            // add divider//
+
+//            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_home.getContext(),LinearLayoutManager.VERTICAL);
+//        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.divider));
+                recyclerview_home.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+
+                ///////////////////////////////////////////////
+                recyclerview_home.setAdapter(adapter);
+
+        return v;
+
+
+
+
+
     }
 
+    private void initImageBitmap(){
+        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
+        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
+        mStatus.add("Chap20ádawdad");
+        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
+        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
+
+        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
+        mNames.add("truyen 2");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+
+        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
+        mNames.add("truyen 3");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
+        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
+        mStatus.add("Chap20ádawdad");
+        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
+        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
+
+        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
+        mNames.add("truyen 2");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+
+        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
+        mNames.add("truyen 3");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
+        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
+        mStatus.add("Chap20ádawdad");
+        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
+        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
+
+        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
+        mNames.add("truyen 2");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+
+        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
+        mNames.add("truyen 3");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
+        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
+        mStatus.add("Chap20ádawdad");
+        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
+        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
+
+        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
+        mNames.add("truyen 2");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+
+        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
+        mNames.add("truyen 3");
+        mStatus.add("Chap20");
+        mTacgias.add("Anonimus");
+        mCategoris.add("Romance");
+    }
+
+    private void initRecyclerview(){
+        RecyclerView recyclerView;
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

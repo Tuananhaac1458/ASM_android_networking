@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,77 +8,41 @@
     tools:context=".MainActivity">
 
 
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/back_gound_top_toolbar"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
+        android:theme="?attr/actionBarTheme" />
 
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.asm_android_networking.Custom.CustomViewPage
         android:id="@+id/vpmain"
-        android:layout_width="match_parent"
-        android:layout_height="620dp"
-        android:layout_marginBottom="8dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toTopOf="@+id/tab_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0">
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/tab_layout"
+        android:layout_below="@id/toolbar">
 
-    </androidx.viewpager.widget.ViewPager>
+    </com.example.asm_android_networking.Custom.CustomViewPage>
 
-    <!--<RelativeLayout-->
-        <!--android:id="@+id/relLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="56dp"-->
-        <!--android:gravity="bottom"-->
-        <!--tools:layout_editor_absoluteY="674dp"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--app:layout_constraintVertical_bias="0.995"-->
-    <!--tools:layout_editor_absoluteX="-34dp"-->
-        <!--tools:ignore="MissingConstraints">-->
-
-        <!--<androidx.appcompat.widget.Toolbar-->
-        <!--android:id="@+id/toolbar2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:background="@drawable/back_gound_bot_toolbar"-->
-        <!--android:minHeight="?attr/actionBarSize"-->
-        <!--android:theme="?attr/actionBarTheme"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent"-->
-        <!--app:layout_constraintVertical_bias="0.995"-->
-        <!--tools:ignore="MissingConstraints"-->
-        <!--tools:layout_editor_absoluteX="-34dp" />-->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="left"
         android:background="@drawable/back_gound_bot_toolbar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
         app:tabGravity="fill"
         app:tabMode="fixed"
         app:tabIndicatorColor="@color/colorPrimary"
         app:tabIndicatorHeight="4dp"
-        tools:layout_editor_absoluteX="0dp">
+       >
 
     </com.google.android.material.tabs.TabLayout>
 
     <!--</RelativeLayout>-->
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout >

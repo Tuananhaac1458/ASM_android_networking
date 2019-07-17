@@ -3,13 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FF00FF"
+    android:background="@color/colorAccent"
+
     tools:context=".Fragment.Fragment_Home">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+   <LinearLayout
+       android:paddingTop="4dp"
+       android:paddingHorizontal="4dp"
+
+
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:focusable="true"
+           android:clickable="true"
+           android:foreground="?android:attr/selectableItemBackground"
+           android:id="@+id/recyclerview_home"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+       </androidx.recyclerview.widget.RecyclerView>
+
+   </LinearLayout>
 
 </FrameLayout>

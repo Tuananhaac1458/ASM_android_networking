@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
 import com.example.asm_android_networking.Adapter.Manage_fragment_adapter;
+import com.example.asm_android_networking.Custom.CustomViewPage;
 import com.example.asm_android_networking.Fragment.Fragment_Category;
 import com.example.asm_android_networking.Fragment.Fragment_Home;
 import com.example.asm_android_networking.Fragment.Fragment_Library;
@@ -23,7 +23,7 @@ import com.google.android.material.tabs.TabLayout;
 public class MainActivity extends AppCompatActivity implements Fragment_Home.OnFragmentInteractionListener, Fragment_Category.OnFragmentInteractionListener, Fragment_Library.OnFragmentInteractionListener, Fragment_User.OnFragmentInteractionListener {
 
     Toolbar toolbar;
-    ViewPager vpmain;
+    CustomViewPage vpmain;
     TabLayout tabLayout;
     Menu menu;
     Boolean mStatehide = false;
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
 
         // ---------------Ánh xạ-----------------//
         toolbar= (Toolbar) findViewById(R.id.toolbar);
-        vpmain = (ViewPager)findViewById(R.id.vpmain);
+        vpmain = (CustomViewPage)findViewById(R.id.vpmain);
         tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         //-------------------------------------------------------------//
 
@@ -65,10 +65,14 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
                 if(position==0){
                     getSupportActionBar().show();
                     toolbar.setTitle("Truyen 24h");
+
                     mStatehide=false;
                     //----------callback function onCreateOptionsMenu--------------///
                     invalidateOptionsMenu();
                     //---------------------///////////////////////
+
+
+
                 }
                 else if(position==1){
                     getSupportActionBar().show();
@@ -93,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
         });
 
         //-------------------------------------------------------------//
+
+
+
+
+
+      //  tabLayout.setOnTabSelectedListener()
     }
 
 
@@ -168,4 +178,6 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
         tabLayout.getTabAt(3).setCustomView(tabfour);
     }
     //---------------------------------------------------------//
+
+
 }
