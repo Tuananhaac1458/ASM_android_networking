@@ -18,13 +18,24 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     }
 ////////////////////////////////////////////////
 
-
+    // Manga TABLE
+    public static String TABLE_MANGA_NAME ="TABLE_PRODUCT";
+    public static String MANGA_ID ="Id";
+    public static String MANGA_NAME="Name";
+    public static String MANGA_CODE="Code";
+    public static String MAGA_CATEGORY="Category";
+    //
+    //
     /////////////////////////////////////////
     ////////////////////////////////////////
     //// QUERY TABLE
     ///////////////////////////////////////
 
-
+//    public String CREATE_TABLE_PRODUCT= "CREATE TABLE IF NOT EXISTS" + TABLE_PRODUCT_NAME+" ( "+
+//            PRODUCT_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+//            PRODUCT_CODE+ " TEXT, "+
+//            PRODUCT_CATEGORY+ " TEXT, "+
+//            PRODUCT_NAME+ " TEXT )";
 
 
 

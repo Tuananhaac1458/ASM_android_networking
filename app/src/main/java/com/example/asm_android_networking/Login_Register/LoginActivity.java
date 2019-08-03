@@ -3,8 +3,12 @@ package com.example.asm_android_networking.Login_Register;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +20,9 @@ import android.widget.Toast;
 
 import com.example.asm_android_networking.MainActivity;
 import com.example.asm_android_networking.R;
+import com.example.asm_android_networking.Repository.User;
+import com.example.asm_android_networking.uitil.RetrofitClient;
+import com.example.asm_android_networking.uitil.SumString;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -36,25 +43,55 @@ import com.google.android.gms.tasks.Task;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
+import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.List;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RC_SIGN_IN = 123;
+    String URL = SumString.URLserver;
     LoginButton btnlwfb;
    SignInButton btnlwgg;
     Button btnlogin;
     EditText etuser,etpass;
     TextView tvregister, tvforgetpass;
     CheckBox cbsaveacc;
+    ProgressDialog progressDialog;
     private CallbackManager callbackManager;
     private SharedPreferences mPrefs;
     private static final String PREES_NAME = "PrefsFile";
     // cờ check me
     private Boolean checkme = false;
-
+    private Boolean status_Login = false;
     private GoogleSignInClient mGoogleSignInClient;
+
+//
+    private String email = null;
+    private String pass = null;
+    private String name = null;
+    private String avatar = null;
+    Context context;
+
+    //
+    //.. connected Server with socket ..//
+//    private Socket mSocket;
+//
+//    {
+//        try{
+//            mSocket = IO.socket("http://192.168.0.103:3000/");
+//        }catch (URISyntaxException e){
+//            Log.d( "aaaa","asd");
+//            throw new RuntimeException( e );
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Create file lưu pass và user
         mPrefs = getSharedPreferences(PREES_NAME,MODE_PRIVATE);
 
+
         //Check remember me
         checkrememberme();
 
@@ -81,15 +119,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // set user and pass
 
-        etuser.setText("admin");
-        etpass.setText("admin");
+        etuser.setText("tuananh");
+        etpass.setText("123");
 
         // Even button
         btnlogin.setOnClickListener(this);
         btnlwfb.setOnClickListener(this);
         btnlwgg.setOnClickListener(this);
-//google
+        tvregister.setOnClickListener(this);
+        tvforgetpass.setOnClickListener(this);
+        ////
 
+//        mSocket.connect();
+//        mSocket.on("login",onLogin);
+
+
+
+            //google
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
          mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
@@ -146,6 +192,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                    startActivity(new Intent(this, MainActivity.class));
                    finish();
                    return;
+               }else if (status_Login){
+                   startActivity(new Intent(this, MainActivity.class));
+                   finish();
+                   return;
                }
                else{
                    Toast.makeText(getApplicationContext(),"Đăng nhập thất bại",Toast.LENGTH_LONG).show();
@@ -168,15 +218,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()){
             // btnlogin function
             case R.id.btnlogin:
-                functionlogin();
-                break;
+               String email = etuser.getText().toString().trim();
+                String pass = etpass.getText().toString().trim();
+               // loginnew(email,pass);
+                AsyncTask task = new BackgroundTask_GET(context,email,pass,status_Login).execute();
+          //      login(email,pass);
+              //  functionlogin();
+         functionlogin();
+//                break;
             case  R.id.btnlwfb:
+//
                 functionlwfb();
                 break;
             case R.id.btnlwgg:
                 functionlwgg();
                 break;
+            case R.id.tvregister:
+                startActivity(new Intent(this,RegisterActivity.class));
+                break;
+            case R.id.tvforgetpass:
+                break;
         }
+    }
+
+    private void loginnew(String email,String pass) {
+        Call<User> call = RetrofitClient.getInstance().getApt().getusers(email,pass);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                User user = response.body();
+                if (user != null){
+                    Toast.makeText(LoginActivity.this, "Xin chao "+user.getName(), Toast.LENGTH_SHORT).show();
+                    status_Login = true;
+                }else
+                    Toast.makeText(LoginActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Lỗi kết nối, vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                Log.e("asd", t.getMessage() );
+            }
+        });
     }
 
     private void functionlwgg() {
@@ -242,10 +325,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String idgoogle = account.getId();
         String name = account.getDisplayName();
         String email = account.getEmail();
-
-        Log.d("idgoogle", idgoogle);
-        Log.d("namegg", name);
-        Log.d("emailgg", email);
+        Uri pic = account.getPhotoUrl();
+        register(idgoogle,pass,name,String.valueOf(pic));
 
         functionlogin();
     }
@@ -273,24 +354,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
-                    String firstname = object.getString("first_name");
-                    String lastname = object.getString("last_name");
                     String id = object.getString("id");
-                    String email = object.getString("email");
-
-
-                    Log.d("firstname", firstname);
-                    Log.d("lastname", lastname);
-                    Log.d("id", id);
-                    Log.d("email", email);
-
+                    name = object.getString("name");
+                    email = object.getString("email");
+                    avatar = "https://graph.facebook.com/"+id+"/picture?type=large";
+                    register(email,pass,name,avatar);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
         Bundle bundle = new Bundle();
-        bundle.putString("fields","id,email,first_name,last_name");
+        bundle.putString("fields","name,email,id");
         request.setParameters(bundle);
         request.executeAsync();
     }
@@ -316,4 +391,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     //-------------------------------------------------------------//
 
+    // Login with mongodp ////////////////
+//    private Emitter.Listener onLogin = new Emitter.Listener() {
+//        @Override
+//        public void call(Object... args) {
+//            String data = args[0].toString();
+//            if (data == "true"){
+//
+//                status_Login = true;
+//            }else {
+//                Log.d("Error"," try again, please ! ");
+//            }
+//          }
+//    };
+////////////////////////////////////////
+private Emitter.Listener onRegister = new Emitter.Listener() {
+    @Override
+    public void call(Object... args) {
+        String data = args[0].toString();
+        if (data == "false") {
+
+        }
+    }
+};
+
+//    public void login(String email,String pass){
+//    mSocket.emit( "login",email,pass );
+//}
+public void register(String email, String pass, String name,String avatarurl){
+   // mSocket.emit( "Register",email,pass,name,avatarurl);
+}
 }

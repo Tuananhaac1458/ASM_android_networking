@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IntroManga_Activity"></activity>
+        <activity android:name=".InforMangaActivity">
+
+        </activity>
         <activity android:name=".Login_Register.RegisterActivity" />
         <activity android:name=".Login_Register.LoginActivity" />
         <activity android:name=".Login_Register.SplashActivity">

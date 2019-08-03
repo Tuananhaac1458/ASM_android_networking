@@ -3,9 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_parent_item"
     android:layout_width="match_parent"
-
+    app:cardBackgroundColor="@android:color/holo_blue_bright"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="@drawable/click_animation_recyclerview"
     android:layout_height="wrap_content">
 
 
@@ -22,45 +25,54 @@
         android:layout_height="80dp" />
 
     <LinearLayout
-        android:gravity="center_vertical"
-        android:orientation="vertical"
         android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_toEndOf="@+id/image_item"
         android:layout_toRightOf="@+id/image_item"
-        android:layout_height="80dp">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
         <TextView
+            android:textColor="@color/color_name_namga"
+            android:textSize="15dp"
             android:id="@+id/tvname_item"
-            android:text="Name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxHeight="35dp"
             android:ellipsize="end"
+            android:maxHeight="35dp"
             android:maxLines="2"
-            />
+            android:text="Name" />
+
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
             <TextView
                 android:id="@+id/tvstatus_item"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="Status"
-                android:minWidth="20dp"
-                android:maxWidth="90dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxWidth="90dp"
+                android:maxLines="1"
+                android:minWidth="20dp"
+                android:text="Status" />
+
             <TextView
-                android:text=" - Tác giả: "
-                android:ems="4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ems="4"
+                android:text=" - Tác giả: " />
+
             <TextView
                 android:id="@+id/tvtacgia_item"
-                android:text="Tac gia"
-                android:maxLines="1"
-                android:ellipsize="end"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="Tac gia" />
 
         </LinearLayout>
 

@@ -13,8 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 import java.lang.reflect.Field;
 
 public class CustomViewPage extends ViewPager {
-    private boolean enabled;
-
     public CustomViewPage(@NonNull Context context) {
         super(context);
         setMyScroller();

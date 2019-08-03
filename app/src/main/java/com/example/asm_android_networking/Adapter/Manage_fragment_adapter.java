@@ -1,6 +1,8 @@
 package com.example.asm_android_networking.Adapter;
 
 
+import android.os.Parcelable;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -30,7 +32,9 @@ public void addFragment(Fragment fragment, String title){
 //    }
     @Override
     public Fragment getItem(int position) {
+        clearStack(position-1);
         return mFragmentList.get(position);
+
     }
 
     @Override
@@ -38,5 +42,15 @@ public void addFragment(Fragment fragment, String title){
         return mFragmentList.size();
     }
 
+    public void clearStack(int po) {
+        //Here we are clearing back stack fragment entries
+      if (po == 0){
+          mFragmentList.get(po).onDestroy();
+      }
+    }
 
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
 }

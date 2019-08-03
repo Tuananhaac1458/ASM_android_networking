@@ -1,6 +1,7 @@
 package com.example.asm_android_networking.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,14 +12,28 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.asm_android_networking.Adapter.Recyclerview_adapter;
+import com.example.asm_android_networking.Background_readJson;
+import com.example.asm_android_networking.InforMangaActivity;
 import com.example.asm_android_networking.R;
+import com.example.asm_android_networking.Readjson;
+import com.example.asm_android_networking.Repository.Manga;
 
+
+import org.json.JSONArray;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +43,7 @@ import java.util.ArrayList;
  * Use the {@link Fragment_Home#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Fragment_Home extends Fragment {
+public class Fragment_Home extends Fragment implements Recyclerview_adapter.onClicklistener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -40,15 +55,22 @@ public class Fragment_Home extends Fragment {
     ////// Khai bao/////////////////////
     View v;
     private static final String TAG ="Fragment_Home";
-    private ArrayList<String> mImages = new ArrayList<>();
-    private ArrayList<String> mNames = new ArrayList<>();
-    private ArrayList<String> mStatus = new ArrayList<>();
-    private ArrayList<String> mTacgias = new ArrayList<>();
-    private ArrayList<String> mCategoris = new ArrayList<>();
+
     private RecyclerView recyclerview_home;
-
-
+    Recyclerview_adapter adapter;
+    private Manga manga;
+    private ArrayList<Manga> mangas = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
+
+    Socket msSocket;
+    {
+        try{
+            msSocket = IO.socket("http://192.168.0.103:3000/");
+        }catch (URISyntaxException e){
+            Log.d( "aaaa","asd");
+            throw new RuntimeException( e );
+        }
+    }
 
     public Fragment_Home() {
         // Required empty public constructor
@@ -80,10 +102,22 @@ public class Fragment_Home extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        initImageBitmap();
+     initImageBitmap();
+//        msSocket.connect();
+//        msSocket.emit("getAll");
+
     }
 
 
+Emitter.Listener onGetall = new Emitter.Listener() {
+    @Override
+    public void call(Object... args) {
+        JSONArray jsonArray = (JSONArray) args[0];
+        Log.d("asd", String.valueOf(jsonArray));
+        new Background_readJson(getContext(),jsonArray,recyclerview_home).execute();
+
+    }
+};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,7 +125,7 @@ public class Fragment_Home extends Fragment {
         // Inflate the layout for this fragment
                v = inflater.inflate(R.layout.fragment_fragment__home, container, false);
                 recyclerview_home = v.findViewById(R.id.recyclerview_home);
-                Recyclerview_adapter adapter = new Recyclerview_adapter(getContext(),mImages,mNames,mStatus,mTacgias,mCategoris);
+                adapter = new Recyclerview_adapter(getContext(),mangas,this);
                 recyclerview_home.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             // add divider//
@@ -99,10 +133,9 @@ public class Fragment_Home extends Fragment {
 //            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerview_home.getContext(),LinearLayoutManager.VERTICAL);
 //        dividerItemDecoration.setDrawable(getContext().getResources().getDrawable(R.drawable.divider));
                 recyclerview_home.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
-
                 ///////////////////////////////////////////////
                 recyclerview_home.setAdapter(adapter);
-
+      //  msSocket.on("getAll",onGetall);
         return v;
 
 
@@ -112,74 +145,14 @@ public class Fragment_Home extends Fragment {
     }
 
     private void initImageBitmap(){
-        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
-        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
-        mStatus.add("Chap20ádawdad");
-        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
-        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
+        String[] categori = {"Hanh dong","Tinhcam,Hentai"};
 
-        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
-        mNames.add("truyen 2");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
 
-        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
-        mNames.add("truyen 3");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
-        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
-        mStatus.add("Chap20ádawdad");
-        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
-        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
 
-        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
-        mNames.add("truyen 2");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-
-        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
-        mNames.add("truyen 3");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
-        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
-        mStatus.add("Chap20ádawdad");
-        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
-        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
-
-        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
-        mNames.add("truyen 2");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-
-        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
-        mNames.add("truyen 3");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-        mImages.add("https://genknews.genkcdn.vn/2018/12/10/3260739408bd888d2dc9b611f35af672-1544414276519470629002.jpg");
-        mNames.add("Vì một vụ tai nạn máy bay ... bắt đầu từ hôm nay, chúng tôi dành cả mùa xuân của cuộc đời mình trên mùa xuân của cuộc đời mình trên");
-        mStatus.add("Chap20ádawdad");
-        mTacgias.add("Anonimus,jahdiuahwdui,hadgiuawghd,ahdiuaw");
-        mCategoris.add("Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,Romance,Commedi,");
-
-        mImages.add("https://genknews.genkcdn.vn/2018/9/5/92db14c7bd721721cdf430b6c6cb5dd5-15361276186361415434208.jpg");
-        mNames.add("truyen 2");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
-
-        mImages.add("https://i.pinimg.com/originals/8d/5a/ec/8d5aecb67421acb3b3364e5342151560.jpg");
-        mNames.add("truyen 3");
-        mStatus.add("Chap20");
-        mTacgias.add("Anonimus");
-        mCategoris.add("Romance");
+    for (int i =0 ; i<9;i++){
+        manga = new Manga("123","https://avt.mkklcdnv3.com/avatar_225/21970-ut918329.jpg","Bạn Trai Tôi Là Lính Cứu Hỏa Dâm Dục",5,"Vodanh",categori);
+        mangas.add(manga);
+    }
     }
 
     private void initRecyclerview(){
@@ -208,6 +181,18 @@ public class Fragment_Home extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void OnTypeClick(int position, boolean typeClick) {
+       Manga mangass = mangas.get(position);
+        if (typeClick){
+            Toast.makeText(getActivity(), "Long click: "+ mangass.getId(), Toast.LENGTH_SHORT).show();
+        }else{
+            Intent intent = new Intent(getActivity(), InforMangaActivity.class);
+            intent.putExtra("Name",mangass.getName());
+            startActivity(intent);
+        }
+       }
 
     /**
      * This interface must be implemented by activities that contain this

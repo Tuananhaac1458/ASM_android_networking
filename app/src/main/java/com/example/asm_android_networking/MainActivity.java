@@ -2,12 +2,11 @@ package com.example.asm_android_networking;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +20,7 @@ import com.example.asm_android_networking.Fragment.Fragment_User;
 import com.google.android.material.tabs.TabLayout;
 
 public class MainActivity extends AppCompatActivity implements Fragment_Home.OnFragmentInteractionListener, Fragment_Category.OnFragmentInteractionListener, Fragment_Library.OnFragmentInteractionListener, Fragment_User.OnFragmentInteractionListener {
+
 
     Toolbar toolbar;
     CustomViewPage vpmain;
@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
 
         //------------------ Xét fargment vào tablayout--------------------//
         manage_fragment_adapter = new Manage_fragment_adapter(getSupportFragmentManager());
+       // manage_fragment_adapter.notifyDataSetChanged();
        setupViewPage(vpmain);
+
        tabLayout.setupWithViewPager(vpmain);
         //-------------------------------------------------------------//
         createTabIcons();
@@ -70,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements Fragment_Home.OnF
                     //----------callback function onCreateOptionsMenu--------------///
                     invalidateOptionsMenu();
                     //---------------------///////////////////////
-
-
 
                 }
                 else if(position==1){

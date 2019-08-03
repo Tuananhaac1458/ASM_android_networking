@@ -8,4 +8,6 @@
     <color name="colortoolbar">#191919</color>
     <color name="shadowtoolbar">#757575</color>
     <color name="divider_color">#f20</color>
+    <color name="touch_item_recylerview">#008577</color>
+    <color name="color_name_namga">#f20</color>
 </resources>
